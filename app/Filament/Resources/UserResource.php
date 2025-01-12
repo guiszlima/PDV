@@ -38,6 +38,9 @@ class UserResource extends Resource
                     ->placeholder('********')
                     ->password()
                     ->autocomplete('new-password'),
+                Forms\Components\Toggle::make('active')
+                    ->label('Ativo')
+                    ->default(true),
             ]);
     }
 
@@ -50,6 +53,9 @@ class UserResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable()
+                    ->sortable(),
+                Tables\Columns\ToggleColumn::make('active')
+                    ->label('Active')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->searchable()
