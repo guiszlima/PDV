@@ -21,9 +21,9 @@ class AdminSeeder extends Seeder
             'remember_token' => Str::random(10),
             'created_at' => '2025-01-13 00:54:59',
             'updated_at' => '2025-01-13 02:13:14',
-            'is_active' => 1, // Assume que esse é o campo para status
+            'active' => 1, // Assume que esse é o campo para status
             'is_admin' => 1, // Assume que esse é o campo para indicar se o usuário é admin
-        
+
         ]);
     }
 }

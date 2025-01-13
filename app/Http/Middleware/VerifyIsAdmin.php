@@ -17,9 +17,9 @@ class VerifyIsAdmin
     public function handle(Request $request, Closure $next): Response
     {
 
-        if(Auth::user()->is_admin == 1){
+        if(Auth::check() && Auth::user()->is_admin == 1){
             return $next($request);
-        
+
         }
         abort('403', "Sem Autorização");
     }

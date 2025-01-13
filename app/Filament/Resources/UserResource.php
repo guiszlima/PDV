@@ -42,7 +42,8 @@ class UserResource extends Resource
                     ->default(true),
                 Forms\Components\Toggle::make('is_admin')
                     ->label('Admin')
-                    ->default(false),
+                    ->default(false)
+                    ->visible(fn (?Model $record) => $record?->id !== Auth::id()),
             ]);
     }
 
@@ -62,9 +63,7 @@ class UserResource extends Resource
                 Tables\Columns\ToggleColumn::make('is_admin')
                     ->label('Admin')
                     ->sortable()
-                    ->hidden(
-                        fn () => Auth::id()
-                    ),
+                    ->disabled(fn (?Model $record) => $record?->id === Auth::id()),
                 Tables\Columns\TextColumn::make('created_at')
                     ->searchable()
                     ->sortable()
