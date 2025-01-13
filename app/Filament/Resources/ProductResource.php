@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
+use App\Models\Category;
 use App\Models\Product;
 use Carbon\Carbon;
 use Filament\Forms;
@@ -44,6 +45,12 @@ class ProductResource extends Resource
                 Forms\Components\Toggle::make('active')
                     ->label('Active')
                     ->default(true),
+                Forms\Components\Select::make('category_id')
+                    ->label('Categories')
+                    ->relationship('categories', 'name')
+                    ->options(fn () => Category::all()->pluck('name', 'id'))
+                    ->multiple()
+                    ->placeholder('Select a Category'),
             ]);
     }
 
@@ -66,6 +73,10 @@ class ProductResource extends Resource
                     ->sortable(),
                 Tables\Columns\ToggleColumn::make('active')
                     ->label('Active')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('categories.name')
+                    ->label('Categories')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->searchable()
