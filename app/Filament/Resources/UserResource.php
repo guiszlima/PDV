@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Carbon\Carbon;
 use Filament\Forms;
@@ -11,8 +10,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
 
 class UserResource extends Resource
 {
@@ -41,6 +40,9 @@ class UserResource extends Resource
                 Forms\Components\Toggle::make('active')
                     ->label('Ativo')
                     ->default(true),
+                Forms\Components\Toggle::make('is_admin')
+                    ->label('Admin')
+                    ->default(false),
             ]);
     }
 
@@ -55,8 +57,14 @@ class UserResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\ToggleColumn::make('active')
-                    ->label('Active')
+                    ->label('Ativo')
                     ->sortable(),
+                Tables\Columns\ToggleColumn::make('is_admin')
+                    ->label('Admin')
+                    ->sortable()
+                    ->hidden(
+                        fn () => Auth::id()
+                    ),
                 Tables\Columns\TextColumn::make('created_at')
                     ->searchable()
                     ->sortable()
