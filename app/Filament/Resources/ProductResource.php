@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use Carbon\Carbon;
@@ -51,6 +52,12 @@ class ProductResource extends Resource
                     ->options(fn () => Category::all()->pluck('name', 'id'))
                     ->multiple()
                     ->placeholder('Select a Category'),
+                    Forms\Components\Select::make('brand_id')
+                    ->label('Brands')
+                    ->relationship('brands', 'name')
+                    ->options(fn () => Brand::all()->pluck('name', 'id'))
+                    ->multiple()
+                    ->placeholder('Chosse a Brand'),
             ]);
     }
 
@@ -76,6 +83,10 @@ class ProductResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('categories.name')
                     ->label('Categories')
+                    ->searchable()
+                    ->sortable(),
+                    Tables\Columns\TextColumn::make('brands.name')
+                    ->label('Brands')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

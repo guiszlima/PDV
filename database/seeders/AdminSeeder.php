@@ -22,7 +22,8 @@ class AdminSeeder extends Seeder
             'created_at' => '2025-01-13 00:54:59',
             'updated_at' => '2025-01-13 02:13:14',
             'active' => 1, // Assume que esse é o campo para status
-            'is_admin' => 1, // Assume que esse é o campo para indicar se o usuário é admin
+            'is_admin' => 1,
+            'is_super' => 1 // Assume que esse é o campo para indicar se o usuário é admin
 
         ]);
     }
