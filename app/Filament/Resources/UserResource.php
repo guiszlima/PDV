@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class UserResource extends Resource
 {
@@ -50,6 +51,7 @@ class UserResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+      
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
@@ -68,10 +70,17 @@ class UserResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->dateTime()
-                    ->formatStateUsing(fn ($state) => Carbon::parse($state)->format('d/m/y H:i')),
+                    ->formatStateUsing(fn ($state) => \Carbon\Carbon::parse($state)->format('d/m/y H:i')),
             ])
+            ->modifyQueryUsing(function (Builder $query) { 
+                if (true) { 
+                    return $query->where('is_super', false); 
+                } 
+            }) 
             ->filters([
-                //
+                Tables\Filters\Filter::make('Exclude Super Users')
+                    ->query(fn (Builder $query) => $query->where('is_super', false))
+                    ->default(), // Applies by default
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -79,9 +88,16 @@ class UserResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+                ])  
+           
+                ,
+                ]);
+          
     }
+
+
+  
+
 
     public static function getRelations(): array
     {
@@ -103,4 +119,5 @@ class UserResource extends Resource
     {
         return auth()->user()?->isAdmin() ?? false;
     }
+   
 }
