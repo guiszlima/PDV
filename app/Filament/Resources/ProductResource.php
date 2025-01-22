@@ -52,12 +52,12 @@ class ProductResource extends Resource
                     ->options(fn () => Category::all()->pluck('name', 'id'))
                     ->multiple()
                     ->placeholder('Select a Category'),
-                    Forms\Components\Select::make('brand_id')
+                Forms\Components\Select::make('brand_id')
                     ->label('Brands')
                     ->relationship('brands', 'name')
                     ->options(fn () => Brand::all()->pluck('name', 'id'))
                     ->multiple()
-                    ->placeholder('Chosse a Brand'),
+                    ->placeholder('Select a Brand'),
             ]);
     }
 
@@ -90,6 +90,11 @@ class ProductResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->searchable()
+                    ->sortable()
+                    ->dateTime()
+                    ->formatStateUsing(fn ($state) => Carbon::parse($state)->format('d/m/y H:i')),
+                Tables\Columns\TextColumn::make('updated_at')
                     ->searchable()
                     ->sortable()
                     ->dateTime()

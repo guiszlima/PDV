@@ -24,7 +24,6 @@ class AdminSeeder extends Seeder
             'active' => 1, // Assume que esse é o campo para status
             'is_admin' => 1,
             'is_super' => 1 // Assume que esse é o campo para indicar se o usuário é admin
-
         ]);
     }
 }
