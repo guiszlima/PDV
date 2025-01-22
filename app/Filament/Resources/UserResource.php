@@ -18,6 +18,7 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
+    protected static ?string $navigationGroup = 'Admin';
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
     public static function form(Form $form): Form
@@ -51,7 +52,7 @@ class UserResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-      
+
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
@@ -72,11 +73,11 @@ class UserResource extends Resource
                     ->dateTime()
                     ->formatStateUsing(fn ($state) => \Carbon\Carbon::parse($state)->format('d/m/y H:i')),
             ])
-            ->modifyQueryUsing(function (Builder $query) { 
-                if (true) { 
-                    return $query->where('is_super', false); 
-                } 
-            }) 
+            ->modifyQueryUsing(function (Builder $query) {
+                if (true) {
+                    return $query->where('is_super', false);
+                }
+            })
             ->filters([
                 Tables\Filters\Filter::make('Exclude Super Users')
                     ->query(fn (Builder $query) => $query->where('is_super', false))
@@ -88,15 +89,15 @@ class UserResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ])  
-           
+                ])
+
                 ,
                 ]);
-          
+
     }
 
 
-  
+
 
 
     public static function getRelations(): array
@@ -119,5 +120,5 @@ class UserResource extends Resource
     {
         return auth()->user()?->isAdmin() ?? false;
     }
-   
+
 }
